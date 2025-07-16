@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <title>Бразил – Мини Квиз</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', sans-serif;
+            background-color: #fff8e7;
+            color: #333;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #007a3d;
+        }
+        .question {
+            background-color: #f0fdf5;
+            border: 2px dashed #00a86b;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .question h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #777;
+        }
+        #result-box {
+            display: none;
+            background-color: #fff3cd;
+            border: 2px solid #ffeeba;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+        button {
+            background-color: #00a86b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+        }
+        .back-button {
+            background-color: #ffb347;
+            margin-top: 10px;
+        }
+	.no-underline {
+    		text-decoration: none;
+	}
+
+
+    </style>
+</head>
+<body>
+    <h1>Квиз: Што научи Лука во Бразил? 🇧🇷</h1>
+
+    <form id="quizForm">
+        <div class="question">
+            <h2>1. Кој збор на португалски значи „пријател“?</h2>
+            <div class="options">
+                <label><input type="radio" name="q1" value="0"> Olá</label>
+                <label><input type="radio" name="q1" value="0"> Samba</label>
+                <label><input type="radio" name="q1" value="1"> Amigo</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>2. Што прават децата во Бразил преку лето?</h2>
+            <div class="options">
+                <label><input type="checkbox" name="q2" value="1"> Летаат змејови</label>
+                <label><input type="checkbox" name="q2" value="1"> Играат фудбал на плажа</label>
+                <label><input type="checkbox" name="q2" value="1"> Танцуваат самба</label>
+                <label><input type="checkbox" name="q2" value="1"> Сѐ од наведеното</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>3. Што е самба?</h2>
+            <div class="options">
+                <label><input type="radio" name="q3" value="0"> Традиционална храна</label>
+                <label><input type="radio" name="q3" value="1"> Танц и музика</label>
+                <label><input type="radio" name="q3" value="0"> Игра со карти</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>★ Бонус: Кој фудбалер е од Бразил?</h2>
+            <div class="options">
+                <label><input type="radio" name="q4" value="0"> Kylian Mbappé</label>
+                <label><input type="radio" name="q4" value="1"> Neymar</label>
+                <label><input type="radio" name="q4" value="0"> Cristiano Ronaldo</label>
+            </div>
+        </div>
+
+        <button type="button" onclick="calculateScore()">Заврши</button>
+    </form>
+
+    <div id="result-box"></div>
+
+    <div class="footer">
+        <a href="https://www.canva.com/design/DAGtR9vF7M8/Da1rAaAxG_08AIn9CQILIw/watch?utm_content=DAGtR9vF7M8&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd8ab54135c" target="_blank" class="no-underline">
+            <button class="back-button">⬅️ Врати се на приказната</button>
+        </a>
+    </div>
+
+    <script>
+        function calculateScore() {
+            let form = document.getElementById("quizForm");
+            let totalScore = 0;
+
+            let q1 = form.q1.value;
+            totalScore += parseInt(q1 || 0);
+
+            let q2 = form.querySelectorAll('input[name="q2"]');
+            q2.forEach(cb => {
+                if (cb.checked) totalScore += parseInt(cb.value);
+            });
+
+            let q3 = form.q3.value;
+            totalScore += parseInt(q3 || 0);
+
+            let q4 = form.q4.value;
+            totalScore += parseInt(q4 || 0);
+
+            let resultBox = document.getElementById("result-box");
+            resultBox.style.display = "block";
+            resultBox.innerHTML =
+                totalScore >= 7
+                ? "🎉 <strong>Браво!</strong> Одговори точно на сите прашања – заслужуваш аплауз!"
+                : "🙌 <strong>За малку!</strong> Одговори на неколку точно – продолжи да учиш и пак пробај! Твојот резултат: " + totalScore + "/7";
+        }
+    </script>
+</body>
+</html>
