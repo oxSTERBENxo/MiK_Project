@@ -135,33 +135,44 @@
   <h1>🇧🇷 Квиз: Што научи Лука во Бразил?</h1>
 
   <form id="quizForm">
-    <div class="question">
-      <h2>1. Кој збор на португалски значи „пријател“?</h2>
-      <div class="options">
-        <label><input type="radio" name="q1" value="0"> Olá</label>
-        <label><input type="radio" name="q1" value="0"> Samba</label>
-        <label><input type="radio" name="q1" value="1"> Amigo</label>
-      </div>
+  <div class="question">
+    <h2>1. Која е најголемата џунгла во светот?</h2>
+    <div class="options">
+      <label><input type="radio" name="q1" value="1"> Амазонската џунгла 🌳</label>
+      <label><input type="radio" name="q1" value="0"> Конго џунгла 🌿</label>
+      <label><input type="radio" name="q1" value="0"> Сибирска бореална шума 🌲</label>
     </div>
+  </div>
 
-    <div class="question">
-      <h2>2. Што прават децата во Бразил преку лето?</h2>
-      <div class="options">
-        <label><input type="checkbox" name="q2" value="1"> Летаат змејови</label>
-        <label><input type="checkbox" name="q2" value="1"> Играат фудбал на плажа</label>
-        <label><input type="checkbox" name="q2" value="1"> Танцуваат самба</label>
-        <label><input type="checkbox" name="q2" value="1"> Сѐ од наведеното</label>
-      </div>
+  <div class="question">
+    <h2>2. Кој е главниот град на Бразил?</h2>
+    <div class="options">
+      <label><input type="radio" name="q2" value="0"> Рио де Жанеиро 🏖️</label>
+      <label><input type="radio" name="q2" value="1"> Бразилија 🏛️</label>
+      <label><input type="radio" name="q2" value="0"> Сао Паоло 🏙️</label>
     </div>
+  </div>
 
-    <div class="question">
-      <h2>3. Што е самба?</h2>
-      <div class="options">
-        <label><input type="radio" name="q3" value="0"> Традиционална храна</label>
-        <label><input type="radio" name="q3" value="1"> Танц и музика</label>
-        <label><input type="radio" name="q3" value="0"> Игра со карти</label>
-      </div>
+  <div class="question">
+    <h2>3. На што најмногу те потсеќа јадењето фејжоада?</h2>
+    <div class="options">
+      <label><input type="radio" name="q3" value="1"> Тавче гравче 🫘</label>
+      <label><input type="radio" name="q3" value="0"> Чоколадо 🍫</label>
+      <label><input type="radio" name="q3" value="0"> Пица 🍕</label>
     </div>
+  </div>
+
+  <div class="question">
+    <h2>★ Бонус: Кој фудбалер е од Бразил?</h2>
+    <div class="options">
+      <label><input type="radio" name="q4" value="0"> Kylian Mbappé</label>
+      <label><input type="radio" name="q4" value="1"> Neymar</label>
+      <label><input type="radio" name="q4" value="0"> Cristiano Ronaldo</label>
+    </div>
+  </div>
+
+  <button type="button" onclick="calculateScore()">Заврши</button>
+</form>
 
     <div class="question">
       <h2>★ Бонус: Кој фудбалер е од Бразил?</h2>
@@ -220,9 +231,9 @@
       let resultBox = document.getElementById("result-box");
       resultBox.style.display = "block";
       resultBox.innerHTML =
-        totalScore >= 7
+        totalScore >= 4
           ? "🎉 <strong>Браво!</strong> Одговори точно на сите прашања – заслужуваш аплауз!"
-          : "🙌 <strong>За малку!</strong> Одговори на неколку точно – продолжи да учиш и пак пробај! Твојот резултат: " + totalScore + "/7";
+          : "🙌 <strong>За малку!</strong> Одговори на неколку точно – продолжи да учиш и пак пробај! Твојот резултат: " + totalScore + "/4";
     }
   </script>
 </body>
