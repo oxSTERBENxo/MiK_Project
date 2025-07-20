@@ -96,21 +96,25 @@
     }
     .intro-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-top: 20px;
+  flex-direction: column; 
+  align-items: center;    
+  justify-content: flex-start; 
+  margin-top: 30px;
 }
+
+
 
 .intro-container h2,
 .intro-container p {
   background: rgba(255, 255, 255, 0.85);
   padding: 10px 20px;
   border-radius: 15px;
-  color: #a4002b; /* Темноцрвена */
+  color: #a4002b;
   font-weight: bold;
+  margin: 10px 0;
+  text-align: center;
 }
+
 
 #map-container {
   display: flex;
@@ -119,11 +123,12 @@
 }
 
 .map-box {
-  border: 4px solid #800020; /* бордо */
+  border: 4px solid #800020; 
   border-radius: 12px;
   padding: 10px;
   background-color: rgba(255,255,255,0.1);
   display: inline-block;
+  box-shadow: 0 0 15px rgba(128, 0, 32, 0.6);
 }
 
   </style>
