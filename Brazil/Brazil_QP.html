@@ -9,20 +9,18 @@
       padding: 0;
       height: 100%;
       font-family: 'Comic Sans MS', sans-serif;
-    }
-
-    body {
-      background-image: url("NorwayDecor.png"); /* Use your uploaded image */
+      background-color: #001b3a;
+      background-image: url("NorwayDecor.png");
       background-repeat: repeat-y;
       background-position: center top;
-      background-size: contain;
-      background-attachment: scroll;
+      background-size: auto 400px; /* Adjust this to your image height */
       color: #fff;
       text-align: center;
     }
 
     .header {
       background-color: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(4px);
       color: #c8102e; /* Norwegian red */
       padding: 20px;
       font-size: 28px;
@@ -34,6 +32,7 @@
 
     .subheader {
       background-color: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(4px);
       color: #00205b; /* Norwegian blue */
       padding: 10px 15px;
       font-size: 18px;
@@ -50,6 +49,7 @@
 
     .game-container {
       background-color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
       padding: 20px;
       border-radius: 20px;
       margin: 20px auto;
@@ -75,7 +75,7 @@
       margin: 10px;
       font-size: 24px;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.2s ease, opacity 0.3s ease;
     }
 
     .letter:hover {
