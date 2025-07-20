@@ -5,9 +5,10 @@
   <title>Кликни ја Норвешка!</title>
   <style>
     body {
-      background: #f0f8ff;
+      background: linear-gradient(to bottom, #f0f8ff 0%, #ffffff 100%);
       font-family: Arial, sans-serif;
       text-align: center;
+      color: #2b3a67;
     }
 
     h2, h3 {
@@ -31,13 +32,13 @@
 
     #msg {
       font-size: 1.2rem;
-      color: #2b3a67;
       margin-top: 10px;
     }
 
     #scramble-section {
       margin-top: 40px;
-      background: #fdf6f6;
+      background: #fff8dc;
+      border: 2px dashed #ffccd5;
       padding: 20px;
       border-radius: 12px;
       max-width: 600px;
@@ -78,7 +79,10 @@
     }
 
     #constructed-word {
-      min-height: 2em;
+      background: #cdd6f4;
+      padding: 0.5em 1em;
+      border-radius: 10px;
+      min-height: 3em;
       margin-bottom: 1em;
       font-size: 2rem;
       font-weight: bold;
@@ -96,43 +100,51 @@
     }
 
     .success {
-      color: green;
+      color: #2e7d32;
+      background-color: #e0f2f1;
+      padding: 0.5em 1em;
+      border-radius: 10px;
+      display: inline-block;
     }
 
     .error {
-      color: red;
+      color: #c62828;
+      background-color: #fdecea;
+      padding: 0.5em 1em;
+      border-radius: 10px;
+      display: inline-block;
     }
-    /* Slide-in and slide-out animations */
-.slide-in {
-  animation: slideIn 0.3s ease forwards;
-}
 
-.slide-out {
-  animation: slideOut 0.3s ease forwards;
-}
+    /* Animations */
+    .slide-in {
+      animation: slideIn 0.3s ease forwards;
+    }
 
-@keyframes slideIn {
-  from {
-    transform: scale(0.6) translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-}
+    .slide-out {
+      animation: slideOut 0.3s ease forwards;
+    }
 
-@keyframes slideOut {
-  from {
-    transform: scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: scale(0.6) translateY(30px);
-    opacity: 0;
-  }
-}
+    @keyframes slideIn {
+      from {
+        transform: scale(0.6) translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
 
+    @keyframes slideOut {
+      from {
+        transform: scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: scale(0.6) translateY(30px);
+        opacity: 0;
+      }
+    }
 
     @media (max-width: 500px) {
       .letter-bubble {
@@ -159,13 +171,13 @@
   </div>
 
   <script>
-    // 📍 MAP SECTION
+    // 📍 MAP
     fetch('europe.svg')
       .then(r => r.text())
       .then(svgText => {
         document.getElementById('map-container').innerHTML = svgText;
-
         const svg = document.querySelector('svg');
+
         if (!svg.hasAttribute('viewBox')) {
           const width = svg.getAttribute('width') || 1000;
           const height = svg.getAttribute('height') || 800;
@@ -185,12 +197,12 @@
           const name = el.getAttribute('title') || "непозната држава";
           if (el.id.toLowerCase() === correctId) {
             el.classList.add('correct');
-            msg.textContent = `🎉 Браво! Точен одговор!`;
+            msg.textContent = `🎉 Браво! Точно ја одбра ${name}!`;
             paths.forEach(p => p.style.pointerEvents = 'none');
             addOsloPing(svg);
           } else {
             el.classList.add('wrong');
-            msg.textContent = `❌ Тоа не е Норвешка. Пробај повторно!`;
+            msg.textContent = `❌ Тоа е ${name}, не е Норвешка. Пробај повторно!`;
             setTimeout(() => {
               el.classList.remove('wrong');
               msg.textContent = '';
@@ -212,7 +224,7 @@
         }
       });
 
-    // 🔤 SCRAMBLE SECTION
+    // 🔤 SCRAMBLE GAME
     const words = ["Осло", "Фјорд", "Скандинавија", "Викинзи"];
     const originalWord = words[Math.floor(Math.random() * words.length)];
     let constructed = [];
@@ -243,32 +255,31 @@
     }
 
     function selectLetter(letter, index, btn) {
-  if (btn.disabled) return;
+      if (btn.disabled) return;
 
-  btn.disabled = true;
+      btn.disabled = true;
 
-  const used = document.createElement('button');
-  used.textContent = letter;
-  used.className = 'letter-bubble slide-in';
+      const used = document.createElement('button');
+      used.textContent = letter;
+      used.className = 'letter-bubble slide-in';
 
-  used.addEventListener('click', () => {
-    used.classList.remove('slide-in');
-    used.classList.add('slide-out');
+      used.addEventListener('click', () => {
+        used.classList.remove('slide-in');
+        used.classList.add('slide-out');
 
-    setTimeout(() => {
-      used.remove();
-      btn.disabled = false;
-      constructed = constructed.filter(l => l.element !== used);
+        setTimeout(() => {
+          used.remove();
+          btn.disabled = false;
+          constructed = constructed.filter(l => l.element !== used);
+          checkWord();
+        }, 300);
+      });
+
+      constructedDiv.appendChild(used);
+      constructed.push({ letter, element: used });
+
       checkWord();
-    }, 300); // Must match CSS animation duration
-  });
-
-  constructedDiv.appendChild(used);
-  constructed.push({ letter, element: used });
-
-  checkWord();
-}
-
+    }
 
     function checkWord() {
       const guess = constructed.map(l => l.letter).join('');
