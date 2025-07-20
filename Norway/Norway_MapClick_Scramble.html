@@ -6,31 +6,109 @@
   <style>
     body {
       background: #f0f8ff;
+      font-family: Arial, sans-serif;
       text-align: center;
-      font-family: Arial;
     }
+
+    h2, h3 {
+      color: #2b3a67;
+    }
+
     svg {
       width: 90%;
       max-width: 800px;
       height: auto;
       margin-top: 20px;
     }
+
     .correct {
       fill: #4caf50 !important;
     }
+
     .wrong {
       fill: #e53935 !important;
     }
+
     #msg {
       font-size: 1.2rem;
       color: #2b3a67;
       margin-top: 10px;
     }
-    #scramble-word {
-      font-size: 1.4rem;
+
+    #scramble-section {
+      margin-top: 40px;
+      background: #fdf6f6;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .bubble-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .letter-bubble {
+      background-color: #ffccd5;
+      color: #2b3a67;
+      border: none;
+      border-radius: 50%;
+      width: 12vw;
+      height: 12vw;
+      max-width: 60px;
+      max-height: 60px;
+      font-size: 1.5rem;
       font-weight: bold;
-      color: #BA0C2F;
-      margin-bottom: 10px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .letter-bubble:hover {
+      transform: scale(1.1);
+    }
+
+    #constructed-word {
+      min-height: 2em;
+      margin-bottom: 1em;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #00205b;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5em;
+    }
+
+    #feedback {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+
+    @media (max-width: 500px) {
+      .letter-bubble {
+        width: 16vw;
+        height: 16vw;
+        font-size: 1.2rem;
+      }
     }
   </style>
 </head>
@@ -39,47 +117,31 @@
   <h2>🌍 Кликни ја Норвешка!</h2>
   <p>Ова е континентот Европа. Дали знаеш каде се наоѓа Норвешка? Обиди се!</p>
 
-  <h3 id="scramble-word"></h3>
-
   <div id="map-container"></div>
   <div id="msg"></div>
 
+  <div id="scramble-section">
+    <h3>🔤 Размести ги буквите за да го добиеш точниот збор:</h3>
+    <div id="constructed-word"></div>
+    <div class="bubble-container" id="letter-options"></div>
+    <div id="feedback"></div>
+  </div>
+
   <script>
-    const keywords = ["Осло", "Фјорд", "Скандинавија", "Викинзи"];
-
-    function shuffleWord(word) {
-      return word
-        .split('')
-        .sort(() => 0.5 - Math.random())
-        .join('');
-    }
-
-    function showScramble() {
-      const randomWord = keywords[Math.floor(Math.random() * keywords.length)];
-      let scrambled = shuffleWord(randomWord);
-      while (scrambled === randomWord) {
-        scrambled = shuffleWord(randomWord); 
-      }
-      document.getElementById('scramble-word').textContent =
-        `🔤 Погоди го зборот: ${scrambled}`;
-    }
-
-    showScramble();
-
+    // 📍 MAP SECTION
     fetch('europe.svg')
       .then(r => r.text())
       .then(svgText => {
         document.getElementById('map-container').innerHTML = svgText;
 
         const svg = document.querySelector('svg');
-
         if (!svg.hasAttribute('viewBox')) {
           const width = svg.getAttribute('width') || 1000;
           const height = svg.getAttribute('height') || 800;
           svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
         }
 
-        const correctId = 'no'; 
+        const correctId = 'no';
         const msg = document.getElementById('msg');
         const paths = svg.querySelectorAll('path');
 
@@ -90,17 +152,14 @@
 
         function handleClick(el) {
           const name = el.getAttribute('title') || "непозната држава";
-
           if (el.id.toLowerCase() === correctId) {
             el.classList.add('correct');
             msg.textContent = `🎉 Браво! Точен одговор!`;
             paths.forEach(p => p.style.pointerEvents = 'none');
-
             addOsloPing(svg);
           } else {
             el.classList.add('wrong');
             msg.textContent = `❌ Тоа не е Норвешка. Пробај повторно!`;
-
             setTimeout(() => {
               el.classList.remove('wrong');
               msg.textContent = '';
@@ -110,20 +169,89 @@
 
         function addOsloPing(svg) {
           if (svg.querySelector('#osloPing')) return;
-
           const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-
-          circle.setAttribute("cx", "310"); 
+          circle.setAttribute("cx", "310");
           circle.setAttribute("cy", "220");
           circle.setAttribute("r", "6");
           circle.setAttribute("fill", "red");
           circle.setAttribute("stroke", "white");
           circle.setAttribute("stroke-width", "2");
           circle.setAttribute("id", "osloPing");
-
           svg.appendChild(circle);
         }
       });
+
+    // 🔤 SCRAMBLE SECTION
+    const words = ["Осло", "Фјорд", "Скандинавија", "Викинзи"];
+    const originalWord = words[Math.floor(Math.random() * words.length)];
+    let constructed = [];
+
+    const letterOptionsDiv = document.getElementById("letter-options");
+    const constructedDiv = document.getElementById("constructed-word");
+    const feedbackDiv = document.getElementById("feedback");
+
+    function shuffle(array) {
+      return array.sort(() => 0.5 - Math.random());
+    }
+
+    function renderGame() {
+      const shuffled = shuffle([...originalWord]);
+      letterOptionsDiv.innerHTML = '';
+      constructedDiv.innerHTML = '';
+      feedbackDiv.textContent = '';
+      constructed = [];
+
+      shuffled.forEach((letter, index) => {
+        const btn = document.createElement('button');
+        btn.textContent = letter;
+        btn.className = 'letter-bubble';
+        btn.dataset.index = index;
+        btn.addEventListener('click', () => selectLetter(letter, index, btn));
+        letterOptionsDiv.appendChild(btn);
+      });
+    }
+
+    function selectLetter(letter, index, btn) {
+      if (btn.disabled) return;
+
+      btn.disabled = true;
+
+      const used = document.createElement('button');
+      used.textContent = letter;
+      used.className = 'letter-bubble';
+      used.addEventListener('click', () => {
+        used.remove();
+        btn.disabled = false;
+        constructed = constructed.filter(l => l.element !== used);
+        checkWord();
+      });
+
+      constructedDiv.appendChild(used);
+      constructed.push({ letter, element: used });
+
+      checkWord();
+    }
+
+    function checkWord() {
+      const guess = constructed.map(l => l.letter).join('');
+      if (guess.length === originalWord.length) {
+        if (guess === originalWord) {
+          feedbackDiv.textContent = '✅ Точно!';
+          feedbackDiv.className = 'success';
+        } else {
+          feedbackDiv.textContent = '❌ Неточно. Пробај пак!';
+          feedbackDiv.className = 'error';
+          setTimeout(() => {
+            constructed.forEach(l => l.element.remove());
+            constructed = [];
+            letterOptionsDiv.querySelectorAll('button').forEach(b => b.disabled = false);
+            feedbackDiv.textContent = '';
+          }, 1200);
+        }
+      }
+    }
+
+    renderGame();
   </script>
 
 </body>
