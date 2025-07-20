@@ -256,7 +256,7 @@
       });
 
     // ============ SCRAMBLE GAME ============
-    const wordList = ["ОСЛО", "ФЈОРД", "СКАНДИНАВИЈА", "ВИКИНГ"];
+    const wordList = ["ОСЛО", "ФЈОРД", "СКАНДИНАВИЈА", "ВИКИНЗИ"];
     const correctWord = wordList[Math.floor(Math.random() * wordList.length)];
     const letters = shuffleArray(correctWord.split(""));
     const bubblesContainer = document.getElementById("bubblesContainer");
@@ -320,7 +320,6 @@
     renderBubbles();
   </script>
   <div id="gallery">
-  <h3>Истражи повеќе за Норвешка</h3>
   <div class="polaroid-gallery">
     <div class="polaroid">
       <img src="fjord.jpg" alt="Фјорд">
@@ -332,7 +331,7 @@
     </div>
     <div class="polaroid">
       <img src="oh.jpg" alt="Лосос">
-      <p>Оперска сала/p>
+      <p>Оперска сала</p>
     </div>
   </div>
 </div>
