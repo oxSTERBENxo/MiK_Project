@@ -182,6 +182,33 @@
   display: inline-block;
   box-shadow: 0 0 15px rgba(128, 0, 32, 0.6);
 }
+    .footer {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+
+.back-button {
+  background-color: #BA0C2F; 
+  color: white;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Baloo 2', cursive;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #8f0a25;
+  transform: scale(1.05);
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
 
   </style>
 </head>
@@ -335,6 +362,12 @@
     </div>
   </div>
 </div>
+
+<div class="footer">
+    <a href="https://read.bookcreator.com/" target="_blank" class="no-underline">
+      <button class="back-button">⬅️ Врати се на приказната</button>
+    </a>
+  </div>
 
 
 </body>
