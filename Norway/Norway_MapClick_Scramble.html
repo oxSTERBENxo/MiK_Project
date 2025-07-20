@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Кликни ја Норвешка!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: Arial;
+      font-family: 'Baloo 2', cursive;
       background: linear-gradient(to bottom, #f0f8ff, #e6efff);
       text-align: center;
     }
@@ -28,7 +29,7 @@
       fill: #e53935 !important;
     }
     #msg, #wordMsg {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: #2b3a67;
       margin-top: 10px;
       font-weight: bold;
@@ -40,12 +41,12 @@
 
     .bubble {
       display: inline-block;
-      padding: 10px 15px;
+      padding: 12px 18px;
       margin: 8px;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       background: #c62828;
       color: white;
-      border-radius: 12px;
+      border-radius: 20px;
       cursor: pointer;
       transition: transform 0.2s ease;
     }
@@ -56,12 +57,12 @@
 
     .answer-letter {
       display: inline-block;
-      padding: 10px 15px;
+      padding: 12px 18px;
       margin: 8px;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       background: #1565c0;
       color: white;
-      border-radius: 12px;
+      border-radius: 20px;
       cursor: pointer;
       transition: transform 0.2s ease;
     }
@@ -85,20 +86,20 @@
 </head>
 <body>
 
-  <h2>🌍 Кликни ја Норвешка!</h2>
+  <h2>Кликни ја Норвешка!</h2>
   <p>Ова е континентот Европа. Дали знаеш каде се наоѓа Норвешка? Обиди се!</p>
   <div id="map-container"></div>
   <div id="msg"></div>
 
   <div id="scramble-section">
-    <h3>🔤 Размести ги буквите за да го добиеш точниот збор!</h3>
+    <h3>Размести ги буквите за да го добиеш точниот збор</h3>
     <div id="bubblesContainer"></div>
     <div id="answerBox"></div>
     <div id="wordMsg"></div>
   </div>
 
   <script>
-    
+    // ============ MAP GAME =============
     fetch('europe.svg')
       .then(r => r.text())
       .then(svgText => {
@@ -111,7 +112,7 @@
           svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
         }
 
-        const correctId = 'no'; //ISO-3166-1-ALPHA2 code for norway (mali bukvi)
+        const correctId = 'no';
         const msg = document.getElementById('msg');
         const paths = svg.querySelectorAll('path');
 
@@ -124,12 +125,12 @@
           const name = el.getAttribute('title') || "непозната држава";
           if (el.id.toLowerCase() === correctId) {
             el.classList.add('correct');
-            msg.textContent = `🎉 Браво! Точно ја одбра ${name}!`;
+            msg.textContent = `Браво! Точен одговор!`;
             paths.forEach(p => p.style.pointerEvents = 'none');
             addOsloPing(svg);
           } else {
             el.classList.add('wrong');
-            msg.textContent = `❌ Тоа е ${name}, не е Норвешка. Пробај повторно!`;
+            msg.textContent = `Тоа не е Норвешка. Пробај повторно!`;
             setTimeout(() => {
               el.classList.remove('wrong');
               msg.textContent = '';
@@ -151,8 +152,9 @@
         }
       });
 
-    
-    const correctWord = "ОСЛО";
+    // ============ SCRAMBLE GAME ============
+    const wordList = ["ОСЛО", "ФЈОРД", "СКАНДИНАВИЈА", "ВИКИНГ"];
+    const correctWord = wordList[Math.floor(Math.random() * wordList.length)];
     const letters = shuffleArray(correctWord.split(""));
     const bubblesContainer = document.getElementById("bubblesContainer");
     const answerBox = document.getElementById("answerBox");
