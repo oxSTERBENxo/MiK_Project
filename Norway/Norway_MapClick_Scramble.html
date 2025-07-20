@@ -115,7 +115,6 @@
       display: inline-block;
     }
 
-    /* Animations */
     .slide-in {
       animation: slideIn 0.3s ease forwards;
     }
@@ -125,25 +124,13 @@
     }
 
     @keyframes slideIn {
-      from {
-        transform: scale(0.6) translateY(30px);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-      }
+      from { transform: scale(0.6) translateY(30px); opacity: 0; }
+      to   { transform: scale(1) translateY(0); opacity: 1; }
     }
 
     @keyframes slideOut {
-      from {
-        transform: scale(1);
-        opacity: 1;
-      }
-      to {
-        transform: scale(0.6) translateY(30px);
-        opacity: 0;
-      }
+      from { transform: scale(1); opacity: 1; }
+      to   { transform: scale(0.6) translateY(30px); opacity: 0; }
     }
 
     @media (max-width: 500px) {
@@ -227,7 +214,8 @@
     // 🔤 SCRAMBLE GAME
     const words = ["Осло", "Фјорд", "Скандинавија", "Викинзи"];
     const originalWord = words[Math.floor(Math.random() * words.length)];
-    let constructed = [];
+    const constructed = [];
+    const letterButtons = [];
 
     const letterOptionsDiv = document.getElementById("letter-options");
     const constructedDiv = document.getElementById("constructed-word");
@@ -242,47 +230,39 @@
       letterOptionsDiv.innerHTML = '';
       constructedDiv.innerHTML = '';
       feedbackDiv.textContent = '';
-      constructed = [];
 
-      shuffled.forEach((letter, index) => {
+      shuffled.forEach((letter, i) => {
         const btn = document.createElement('button');
         btn.textContent = letter;
         btn.className = 'letter-bubble';
-        btn.dataset.index = index;
-        btn.addEventListener('click', () => selectLetter(letter, index, btn));
+        btn.dataset.index = i;
+        letterButtons[i] = btn;
+
+        btn.addEventListener('click', () => {
+          btn.style.display = 'none';
+          const used = document.createElement('button');
+          used.textContent = letter;
+          used.className = 'letter-bubble slide-in';
+          used.dataset.index = i;
+
+          used.addEventListener('click', () => {
+            used.remove();
+            btn.style.display = 'flex';
+            constructed.splice(constructed.indexOf(used), 1);
+            checkWord();
+          });
+
+          constructed.push(used);
+          constructedDiv.appendChild(used);
+          checkWord();
+        });
+
         letterOptionsDiv.appendChild(btn);
       });
     }
 
-    function selectLetter(letter, index, btn) {
-      if (btn.disabled) return;
-
-      btn.disabled = true;
-
-      const used = document.createElement('button');
-      used.textContent = letter;
-      used.className = 'letter-bubble slide-in';
-
-      used.addEventListener('click', () => {
-        used.classList.remove('slide-in');
-        used.classList.add('slide-out');
-
-        setTimeout(() => {
-          used.remove();
-          btn.disabled = false;
-          constructed = constructed.filter(l => l.element !== used);
-          checkWord();
-        }, 300);
-      });
-
-      constructedDiv.appendChild(used);
-      constructed.push({ letter, element: used });
-
-      checkWord();
-    }
-
     function checkWord() {
-      const guess = constructed.map(l => l.letter).join('');
+      const guess = constructed.map(e => e.textContent).join('');
       if (guess.length === originalWord.length) {
         if (guess === originalWord) {
           feedbackDiv.textContent = '✅ Точно!';
@@ -291,11 +271,14 @@
           feedbackDiv.textContent = '❌ Неточно. Пробај пак!';
           feedbackDiv.className = 'error';
           setTimeout(() => {
-            constructed.forEach(l => l.element.remove());
-            constructed = [];
-            letterOptionsDiv.querySelectorAll('button').forEach(b => b.disabled = false);
+            constructed.forEach(e => {
+              const idx = e.dataset.index;
+              e.remove();
+              letterButtons[idx].style.display = 'flex';
+            });
+            constructed.length = 0;
             feedbackDiv.textContent = '';
-          }, 1200);
+          }, 1000);
         }
       }
     }
