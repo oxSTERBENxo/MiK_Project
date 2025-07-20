@@ -7,39 +7,43 @@
     html, body {
       margin: 0;
       padding: 0;
+      font-family: 'Comic Sans MS', sans-serif;
     }
 
     body {
-      font-family: 'Comic Sans MS', sans-serif;
       color: #2e2e2e;
     }
 
-    .top-bg {
-      background: url("JapanImages/JapanDecorTop.png") no-repeat center center;
-      background-size: cover;
-      height: 100vh;
-      width: 100%;
+    .background-wrapper {
+      background: url("JapanDecor.png") center top repeat-y;
+      background-size: 100% auto;
+      padding: 0;
     }
 
-    .main-wrapper {
-      background: url("JapanImages/JapanDecor.png") repeat-y center top;
-      background-size: 100% auto;
-      padding: 30px 20px;
+    .top-section {
+      background: url("JapanDecorTop.png") no-repeat center top;
+      background-size: cover;
+      background-attachment: scroll;
+      padding: 60px 20px 40px 20px;
+    }
+
+    .main-content {
       max-width: 800px;
       margin: auto;
+      padding: 20px;
     }
 
     h1 {
       text-align: center;
-      color: #d40000;
+      color: #b30059;
       font-size: 32px;
-      text-shadow: 2px 2px #ffe0e0;
+      text-shadow: 2px 2px #ffe6f0;
       margin-bottom: 30px;
     }
 
     .question {
-      background-color: #fff8f0;
-      border: 3px solid #f2c8c8;
+      background-color: #fff7fb;
+      border: 3px solid #f4c2d7;
       border-radius: 20px;
       padding: 20px;
       margin: 25px 0;
@@ -48,7 +52,7 @@
     .question h2 {
       font-size: 22px;
       margin-bottom: 15px;
-      color: #b30000;
+      color: #800040;
     }
 
     .options label {
@@ -59,14 +63,14 @@
     }
 
     button {
-      background-color: #ff4d4d;
+      background-color: #ff4da6;
       color: white;
       border: none;
       padding: 12px 24px;
       font-size: 18px;
       border-radius: 20px;
       cursor: pointer;
-      box-shadow: 2px 2px 5px #eabbbb;
+      box-shadow: 2px 2px 5px #ffb3d9;
       transition: transform 0.2s;
       display: block;
       margin: 30px auto;
@@ -77,7 +81,7 @@
     }
 
     .back-button {
-      background-color: #ffd966;
+      background-color: #fff2cc;
       color: #333;
       margin-top: 10px;
     }
@@ -107,65 +111,68 @@
   </style>
 </head>
 <body>
-  <div class="top-bg"></div>
+  <div class="background-wrapper">
+    <div class="top-section">
+      <div class="main-content">
+        <h1>🎌 Колку добро ја познаваш Јапонија?</h1>
 
-  <div class="main-wrapper">
-    <h1>🇯🇵 Колку добро ја познаваш Јапонија?</h1>
+        <form id="quizForm">
+          <div class="question">
+            <h2>1. Која е традиционалната облека во Јапонија?</h2>
+            <div class="options">
+              <label><input type="radio" name="q1" value="1"> Кимоно 👘</label>
+              <label><input type="radio" name="q1" value="0"> Џинс 👖</label>
+              <label><input type="radio" name="q1" value="0"> Палто 🧥</label>
+            </div>
+          </div>
 
-    <form id="quizForm">
-      <div class="question">
-        <h2>1. Која е традиционалната облека во Јапонија?</h2>
-        <div class="options">
-          <label><input type="radio" name="q1" value="1"> Кимоно 👘</label>
-          <label><input type="radio" name="q1" value="0"> Џинс 👖</label>
-          <label><input type="radio" name="q1" value="0"> Палто 🧥</label>
+          <div class="question">
+            <h2>2. Која е Јапонска традиционална храна?</h2>
+            <div class="options">
+              <label><input type="radio" name="q2" value="1"> Суши 🍣</label>
+              <label><input type="radio" name="q2" value="0"> Бурек 🥟</label>
+              <label><input type="radio" name="q2" value="0"> Палачинки 🥞</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h2>3. Кој празник вклучува многу фенери и цветови од цреша?</h2>
+            <div class="options">
+              <label><input type="radio" name="q3" value="1"> Ханами 🌸</label>
+              <label><input type="radio" name="q3" value="0"> Нова година 🎉</label>
+              <label><input type="radio" name="q3" value="0"> Велигден 🐣</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h2>4. Кој вид на уметност е “манга”?</h2>
+            <div class="options">
+              <label><input type="radio" name="q4" value="1"> Стрип</label>
+              <label><input type="radio" name="q4" value="0"> Сликање со вода</label>
+              <label><input type="radio" name="q4" value="0"> Гравирање</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h2>★ Бонус: Дали знаеш што е аниме?</h2>
+            <div class="options">
+              <label><input type="radio" name="q5" value="1"> Да! Гледам секој ден 🎥</label>
+              <label><input type="radio" name="q5" value="0"> Не сум сигурен/на 🤔</label>
+              <label><input type="radio" name="q5" value="0"> Тоа е храна, нели? 🍜</label>
+            </div>
+          </div>
+
+          <button type="button" onclick="calculateScore()">Заврши</button>
+        </form>
+
+        <div id="result-box"></div>
+
+        <div class="footer">
+          <a href="https://read.bookcreator.com/" target="_blank" class="no-underline">
+            <button class="back-button">⬅️ Врати се на приказната</button>
+          </a>
         </div>
       </div>
-
-      <div class="question">
-        <h2>2. Кој е традиционален јапонски оброк?</h2>
-        <div class="options">
-          <label><input type="radio" name="q2" value="1"> Суши 🍣</label>
-          <label><input type="radio" name="q2" value="0"> Бурек 🥟</label>
-          <label><input type="radio" name="q2" value="0"> Палачинки 🥞</label>
-        </div>
-      </div>
-
-      <div class="question">
-        <h2>3. Кој празник вклучува фенери и цветови од цреша?</h2>
-        <div class="options">
-          <label><input type="radio" name="q3" value="1"> Ханами 🌸</label>
-          <label><input type="radio" name="q3" value="0"> Нова година 🎉</label>
-          <label><input type="radio" name="q3" value="0"> Велигден 🐣</label>
-        </div>
-      </div>
-
-      <div class="question">
-        <h2>4. Кој вид на уметност е „манга“?</h2>
-        <div class="options">
-          <label><input type="radio" name="q4" value="1"> Стрип</label>
-          <label><input type="radio" name="q4" value="0"> Сликање со вода</label>
-          <label><input type="radio" name="q4" value="0"> Гравирање</label>
-        </div>
-      </div>
-
-      <div class="question">
-        <h2>★ Бонус: Дали знаеш што е аниме?</h2>
-        <div class="options">
-          <label><input type="radio" name="q5" value="1"> Да! Ги сакам!</label>
-          <label><input type="radio" name="q5" value="0"> Не знам 🤔</label>
-        </div>
-      </div>
-
-      <button type="button" onclick="calculateScore()">Заврши</button>
-    </form>
-
-    <div id="result-box"></div>
-
-    <div class="footer">
-      <a href="https://read.bookcreator.com/" target="_blank" class="no-underline">
-        <button class="back-button">⬅️ Врати се на приказната</button>
-      </a>
     </div>
   </div>
 
@@ -173,17 +180,19 @@
     function calculateScore() {
       let form = document.getElementById("quizForm");
       let totalScore = 0;
-      for (let i = 1; i <= 5; i++) {
-        let q = form["q" + i];
-        if (q) totalScore += parseInt(q.value || 0);
-      }
+
+      let answers = ['q1', 'q2', 'q3', 'q4', 'q5'];
+      answers.forEach(q => {
+        const val = form[q].value;
+        totalScore += parseInt(val || 0);
+      });
 
       let resultBox = document.getElementById("result-box");
       resultBox.style.display = "block";
       resultBox.innerHTML =
-        totalScore >= 4
-          ? "🎉 <strong>Одлично!</strong> Одговори точно на " + totalScore + " прашања!"
-          : "📚 <strong>Продолжи да учиш!</strong> Твојот резултат: " + totalScore + "/5";
+        totalScore >= 5
+          ? "🎉 <strong>Браво!</strong> Одговори точно на сите прашања – прекрасно познавање на Јапонија!"
+          : "🌸 <strong>Супер!</strong> Научи нешто ново и пробај пак! Резултат: " + totalScore + "/5";
     }
   </script>
 </body>
