@@ -173,8 +173,7 @@
         });
 
         function handleClick(el) {
-          const name = el.getAttribute('title') || "непозната држава";
-          if (el.id.toLowerCase() === correctId) {
+          if (el.id.toLowerCase() === 'no') {
             el.classList.add('correct');
             msg.textContent = `Браво! Точен одговор!`;
             paths.forEach(p => p.style.pointerEvents = 'none');
@@ -185,9 +184,10 @@
             setTimeout(() => {
               el.classList.remove('wrong');
               msg.textContent = '';
-            }, 1000);
+            }, 1200);
           }
         }
+
 
         function addOsloPing(svg) {
           if (svg.querySelector('#osloPing')) return;
