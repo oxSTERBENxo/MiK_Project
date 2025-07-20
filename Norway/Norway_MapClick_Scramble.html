@@ -4,54 +4,50 @@
   <meta charset="UTF-8">
   <title>Кликни ја Норвешка!</title>
   <style>
-    body {
-      background: #f0f8ff;
-      text-align: center;
-      font-family: Arial;
-    }
-    svg {
-      width: 90%;
-      max-width: 800px;
-      margin-top: 20px;
-    }
-    .correct {
-      fill: #4CAF50 !important;
-    }
-    .wrong {
-      fill: #E53935 !important;
-    }
+    body{background:#f0f8ff;text-align:center;font-family:Arial}
+    svg{width:90%;max-width:800px;margin-top:20px}
+    .correct{fill:#4caf50!important;}      /* зелено */
+    .wrong  {fill:#e53935!important;}      /* црвено */
+    #msg{font-size:1.2rem;color:#2b3a67;margin-top:10px}
   </style>
 </head>
 <body>
 
   <h2>🌍 Кликни ја Норвешка!</h2>
   <p>Дали знаеш каде се наоѓа Норвешка? Обиди се!</p>
-  
   <div id="map-container"></div>
+  <div id="msg"></div>
 
   <script>
-    
+    // 1) Вчитуваме SVG‑то
     fetch('europe.svg')
-      .then(res => res.text())
-      .then(svgText => {
-        document.getElementById('map-container').innerHTML = svgText;
+      .then(r => r.text())
+      .then(svg => {
+        document.getElementById('map-container').innerHTML = svg;
 
-        const correctId = "NOR"; 
+        const correctId = 'NOR';          // ID на Норвешка во ова SVG
+        const msg       = document.getElementById('msg');
+        const paths     = document.querySelectorAll('svg path');
 
-        document.querySelectorAll("svg path").forEach(el => {
-          el.style.cursor = "pointer";
-          el.addEventListener("click", () => {
-            if (el.id === correctId) {
-              el.classList.add("correct");
-              alert("🎉 Точно! Ова е Норвешка!");
-            } else {
-              el.classList.add("wrong");
-              alert("❌ Не е тоа Норвешка. Обиди се повторно!");
-            }
-          });
+        paths.forEach(p => {
+          p.style.cursor = 'pointer';
+          p.addEventListener('click', () => handleClick(p));
         });
+
+        function handleClick(el){
+          if(el.id === correctId){
+            el.classList.add('correct');
+            msg.textContent = '🎉 Браво! Точно ја одбра Норвешка!';
+            // oневозможи понатамошни кликови
+            paths.forEach(p => p.style.pointerEvents='none');
+          }else{
+            el.classList.add('wrong');
+            msg.textContent = '❌ Не е тоа Норвешка. Пробај повторно!';
+            // по 800 ms врати ја првобитната боја
+            setTimeout(() => el.classList.remove('wrong'), 800);
+          }
+        }
       });
   </script>
-
 </body>
 </html>
