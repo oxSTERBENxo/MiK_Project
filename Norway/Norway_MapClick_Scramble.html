@@ -26,16 +26,46 @@
       color: #2b3a67;
       margin-top: 10px;
     }
+    #scramble-word {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #BA0C2F;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
 
   <h2>🌍 Кликни ја Норвешка!</h2>
   <p>Ова е континентот Европа. Дали знаеш каде се наоѓа Норвешка? Обиди се!</p>
+
+  <h3 id="scramble-word"></h3>
+
   <div id="map-container"></div>
   <div id="msg"></div>
 
   <script>
+    const keywords = ["Осло", "Фјорд", "Скандинавија", "Викинзи"];
+
+    function shuffleWord(word) {
+      return word
+        .split('')
+        .sort(() => 0.5 - Math.random())
+        .join('');
+    }
+
+    function showScramble() {
+      const randomWord = keywords[Math.floor(Math.random() * keywords.length)];
+      let scrambled = shuffleWord(randomWord);
+      while (scrambled === randomWord) {
+        scrambled = shuffleWord(randomWord); 
+      }
+      document.getElementById('scramble-word').textContent =
+        `🔤 Погоди го зборот: ${scrambled}`;
+    }
+
+    showScramble();
+
     fetch('europe.svg')
       .then(r => r.text())
       .then(svgText => {
@@ -49,7 +79,7 @@
           svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
         }
 
-        const correctId = 'no'; // Adjust this to match your SVG's Norway ID
+        const correctId = 'no'; 
         const msg = document.getElementById('msg');
         const paths = svg.querySelectorAll('path');
 
@@ -63,13 +93,13 @@
 
           if (el.id.toLowerCase() === correctId) {
             el.classList.add('correct');
-            msg.textContent = `🎉 Браво! Точно ја одбра ${name}!`;
+            msg.textContent = `🎉 Браво! Точен одговор!`;
             paths.forEach(p => p.style.pointerEvents = 'none');
 
             addOsloPing(svg);
           } else {
             el.classList.add('wrong');
-            msg.textContent = `❌ Тоа е ${name}, не е Норвешка. Пробај повторно!`;
+            msg.textContent = `❌ Тоа не е Норвешка. Пробај повторно!`;
 
             setTimeout(() => {
               el.classList.remove('wrong');
@@ -83,7 +113,7 @@
 
           const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 
-          circle.setAttribute("cx", "310");
+          circle.setAttribute("cx", "310"); 
           circle.setAttribute("cy", "220");
           circle.setAttribute("r", "6");
           circle.setAttribute("fill", "red");
