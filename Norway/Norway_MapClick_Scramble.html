@@ -102,6 +102,37 @@
     .error {
       color: red;
     }
+    /* Slide-in and slide-out animations */
+.slide-in {
+  animation: slideIn 0.3s ease forwards;
+}
+
+.slide-out {
+  animation: slideOut 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: scale(0.6) translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.6) translateY(30px);
+    opacity: 0;
+  }
+}
+
 
     @media (max-width: 500px) {
       .letter-bubble {
@@ -212,25 +243,32 @@
     }
 
     function selectLetter(letter, index, btn) {
-      if (btn.disabled) return;
+  if (btn.disabled) return;
 
-      btn.disabled = true;
+  btn.disabled = true;
 
-      const used = document.createElement('button');
-      used.textContent = letter;
-      used.className = 'letter-bubble';
-      used.addEventListener('click', () => {
-        used.remove();
-        btn.disabled = false;
-        constructed = constructed.filter(l => l.element !== used);
-        checkWord();
-      });
+  const used = document.createElement('button');
+  used.textContent = letter;
+  used.className = 'letter-bubble slide-in';
 
-      constructedDiv.appendChild(used);
-      constructed.push({ letter, element: used });
+  used.addEventListener('click', () => {
+    used.classList.remove('slide-in');
+    used.classList.add('slide-out');
 
+    setTimeout(() => {
+      used.remove();
+      btn.disabled = false;
+      constructed = constructed.filter(l => l.element !== used);
       checkWord();
-    }
+    }, 300); // Must match CSS animation duration
+  });
+
+  constructedDiv.appendChild(used);
+  constructed.push({ letter, element: used });
+
+  checkWord();
+}
+
 
     function checkWord() {
       const guess = constructed.map(l => l.letter).join('');
