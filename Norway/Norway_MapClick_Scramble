@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="UTF-8">
+  <title>Кликни ја Норвешка!</title>
+  <script src="https://simplemaps.com/static/data/europemap.js"></script>
+  <script src="https://simplemaps.com/static/js/europemap.js"></script>
+  <style>
+    #map {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: #f0f8ff;
+    }
+    h2 {
+      color: #2b3a67;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🌍 Кликни ја Норвешка!</h2>
+  <p>Дали знаеш каде се наоѓа Норвешка? Обиди се!</p>
+  <div id="map"></div>
+
+  <script>
+    // Modify map data after loading
+    simplemaps_europemap_mapdata.main_settings.click_handler = "function(id){ handleCountryClick(id); }";
+    simplemaps_europemap_mapdata.main_settings.popups = "none"; // 👈 disables country popups
+
+    const correctCountry = "NO"; // Country code for Norway
+
+    function handleCountryClick(id) {
+      if (id === correctCountry) {
+        simplemaps_europemap.setStateColor(id, "#4CAF50"); // green
+        alert("🎉 Точно! Лука е во Норвешка!");
+      } else {
+        simplemaps_europemap.setStateColor(id, "#E53935"); // red
+        alert("❌ Не е тоа Норвешка. Обиди се повторно!");
+      }
+    }
+  </script>
+
+</body>
+</html>
