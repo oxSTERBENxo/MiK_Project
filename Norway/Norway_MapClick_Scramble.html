@@ -4,11 +4,27 @@
   <meta charset="UTF-8">
   <title>Кликни ја Норвешка!</title>
   <style>
-    body{background:#f0f8ff;text-align:center;font-family:Arial}
-    svg{width:90%;max-width:800px;margin-top:20px}
-    .correct{fill:#4caf50!important;}    
-    .wrong  {fill:#e53935!important;}     
-    #msg{font-size:1.2rem;color:#2b3a67;margin-top:10px}
+    body {
+      background: #f0f8ff;
+      text-align: center;
+      font-family: Arial;
+    }
+    svg {
+      width: 90%;
+      max-width: 800px;
+      margin-top: 20px;
+    }
+    .correct {
+      fill: #4caf50 !important;
+    }
+    .wrong {
+      fill: #e53935 !important;
+    }
+    #msg {
+      font-size: 1.2rem;
+      color: #2b3a67;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -19,15 +35,14 @@
   <div id="msg"></div>
 
   <script>
-    
     fetch('europe.svg')
       .then(r => r.text())
       .then(svg => {
         document.getElementById('map-container').innerHTML = svg;
 
-        const correctId = 'no';          //ISO-3166-1-ALPHA2 code for norway with small lett
-        const msg       = document.getElementById('msg');
-        const paths     = document.querySelectorAll('svg path');
+        const correctId = 'no'; // check lowercase id
+        const msg = document.getElementById('msg');
+        const paths = document.querySelectorAll('svg path');
 
         paths.forEach(p => {
           p.style.cursor = 'pointer';
@@ -39,18 +54,38 @@
 
           if (el.id === correctId) {
             el.classList.add('correct');
-            msg.textContent = `🎉 Браво! Точно ја одбра ${name}!`;
+            msg.textContent = `🎉 Браво! Точен одговор!`;
             paths.forEach(p => p.style.pointerEvents = 'none');
+
+            // Add Oslo ping
+            addOsloPing();
           } else {
             el.classList.add('wrong');
-            msg.textContent = `❌ Тоа е ${name}, не е Норвешка. Пробај повторно!`;
+            msg.textContent = `Оваа држава не е Норвешка. Пробај повторно!`;
 
             setTimeout(() => {
               el.classList.remove('wrong');
               msg.textContent = '';
             }, 1000);
           }
-}
+        }
+
+        function addOsloPing() {
+          const svg = document.querySelector('svg');
+
+          const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+
+          
+          circle.setAttribute("cx", "525");  
+          circle.setAttribute("cy", "150");  
+          circle.setAttribute("r", "6");
+          circle.setAttribute("fill", "red");
+          circle.setAttribute("stroke", "white");
+          circle.setAttribute("stroke-width", "2");
+          circle.setAttribute("id", "osloPing");
+
+          svg.appendChild(circle);
+        }
 
       });
   </script>
