@@ -94,12 +94,45 @@
     #answerBox {
       min-height: 60px;
     }
+    .intro-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.intro-container h2,
+.intro-container p {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 10px 20px;
+  border-radius: 15px;
+  color: #a4002b; /* Темноцрвена */
+  font-weight: bold;
+}
+
+#map-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.map-box {
+  border: 4px solid #800020; /* бордо */
+  border-radius: 12px;
+  padding: 10px;
+  background-color: rgba(255,255,255,0.1);
+  display: inline-block;
+}
+
   </style>
 </head>
 <body>
-
+  <div class="intro-container">
   <h2>Кликни ја Норвешка!</h2>
   <p>Ова е континентот Европа. Дали знаеш каде се наоѓа Норвешка? Обиди се!</p>
+  </div>
   <div id="map-container"></div>
   <div id="msg"></div>
 
@@ -115,7 +148,8 @@
     fetch('europe.svg')
       .then(r => r.text())
       .then(svgText => {
-        document.getElementById('map-container').innerHTML = svgText;
+        document.getElementById('map-container').innerHTML = `<div class="map-box">${svgText}</div>`;
+
 
         const svg = document.querySelector('svg');
         if (!svg.hasAttribute('viewBox')) {
