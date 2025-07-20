@@ -28,12 +28,13 @@
   color: #b30059;
   font-size: 32px;
   font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.85); /* soft white background */
+  background-color: rgba(255, 255, 255, 0.85); 
   padding: 16px 24px;
   border-radius: 20px;
   text-shadow: 1px 1px 2px #ffccf2;
   margin-bottom: 30px;
   display: inline-block;
+  text-align: center;
 }
 
 
@@ -146,7 +147,10 @@
 </head>
 
 <body>
-  <h1>🎌 Колку добро ја познаваш Јапонија?</h1>
+  <div style="text-align: center;">
+      <h1>🏯 Од самураи до суши – Тестирај го знаењето!</h1>
+  </div>
+
 
   <form id="quizForm">
     <div class="question">
@@ -245,9 +249,9 @@
       {
         id: "q5-options",
         options: [
-          { text: "Да! Гледам секој ден 🎥", value: 1 },
-          { text: "Не сум сигурен/на 🤔", value: 0 },
-          { text: "Тоа е храна, нели? 🍜", value: 0 },
+          { text: "Вид на јапонски анимирани серии и филмови 🎥", value: 1 },
+          { text: "Традиционално јапонско јадење 🍜", value: 0 },
+          { text: "Јапонска боречка вештина како карате! 👊", value: 0 },
         ]
       },
     ];
